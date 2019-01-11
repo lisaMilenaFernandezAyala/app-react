@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import { Graph } from 'react-d3-graph';
 import { Fetch } from 'react-request';
+import { API } from "./Common";
+import Cookies from 'universal-cookie';
 
 let list, value, airportsData;
 const myConfig = {
@@ -14,6 +16,8 @@ const myConfig = {
       highlightColor: '#FF7777'
   }
 };
+
+const cookies = new Cookies();
 
 class Dashboard extends Component {
   handleChange = (event) => {
@@ -38,13 +42,17 @@ class Dashboard extends Component {
   };
 
   render() {
+    if(!cookies.get('country')) {
+      cookies.set('country', 'ES', { path: '/' });
+    }
+    
     return (
       <div>
         <h2>Dashboard</h2>
 
-        <Fetch url="https://api.aviationdata.systems/v1/country/code/ES?airport_service_type=All"
+        <Fetch url={API.dashboard.replace('{country}', cookies.get('country'))}
           headers={{
-            'Authorization': 'Basic YmQwZDljNjctMTRkYS00NmZmLTg2ODYtODhhMjFiZWU5NjU4OmQ3YzMxOGE2LWI4MzQtNDQ4Ny1hM2E5LWY5ZjBkMWM1Y2ZhNg==',
+            'Authorization': API.authorization,
           }}>
         {({ fetching, failed, data }) => {
           if (fetching)
@@ -54,9 +62,10 @@ class Dashboard extends Component {
             return <div>The request did not succeed.</div>;
  
           if (data) {
+            console.log(this.state)
             if(!this.state || this.state.value != value) {
               airportsData = data;
-              this.updateChart(value, data);
+              this.updateChart(value);
             }
             
             return (
