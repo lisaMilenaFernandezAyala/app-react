@@ -21,12 +21,12 @@ const cookies = new Cookies();
 
 class Dashboard extends Component {
   handleChange = (event) => {
-    this.updateChart(event.target.value);
-    this.setState({ value: event.target.value });
+    this.setState({ value: false });
+    this.updateChart(event.target.value, true);
   };
 
-  updateChart = (type) => {
-    value = type || 'Medium';
+  updateChart = (type, toUpdate) => {
+    value = type || 'Small';
     list = {
       nodes: [
         { id: airportsData.country.name }
@@ -34,17 +34,18 @@ class Dashboard extends Component {
       links: [ ]
     };
     airportsData.airport_list.map(airport => {
-      if(airport.airport_type.indexOf(type) > -1 && airport.iata_code.length){
+      if(airport.airport_type.indexOf(value) > -1 && airport.iata_code.length){
         list.nodes.push({ id: airport.iata_code });
         list.links.push({ source: airportsData.country.name, target: airport.iata_code });
       }
     });
+    
+    if(toUpdate) setTimeout(() => this.setState({ value: type }));
   };
 
   render() {
-    if(!cookies.get('country')) {
+    if(!cookies.get('country'))
       cookies.set('country', 'ES', { path: '/' });
-    }
     
     return (
       <div>
@@ -54,15 +55,11 @@ class Dashboard extends Component {
           headers={{
             'Authorization': API.authorization,
           }}>
-        {({ fetching, failed, data }) => {
-          if (fetching)
-            return <div>Loading data...</div>;
- 
+        {({ failed, data }) => { 
           if (failed)
             return <div>The request did not succeed.</div>;
  
-          if (data) {
-            console.log(this.state)
+          if (data && (!this.state || this.state.value)) {
             if(!this.state || this.state.value != value) {
               airportsData = data;
               this.updateChart(value);
@@ -75,6 +72,8 @@ class Dashboard extends Component {
                   <option key="s" value="Small">Small Airport</option>
                   <option key="m" value="Medium">Medium Airport</option>
                   <option key="l" value="Large">Large Airport</option>
+                  <option key="c" value="Closed">Closed Airport</option>
+                  <option key="h" value="Heliport">Heliport</option>
                 </select>
                 
                 <Graph
@@ -85,7 +84,7 @@ class Dashboard extends Component {
             );
           }
  
-          return null;
+          return <div>Loading data...</div>;
         }}
       </Fetch>
       </div>

@@ -67,6 +67,50 @@ body, #root {
   max-width: 100%;
 }
 
+/*
+  Table
+*/
+.App table {
+  width: 100%;
+  border-spacing: unset;
+  border-collapse: collapse;
+}
+.App table th, .App table td {
+  padding: 5px 10px;
+  font-size: calc(7px + 1vmin);
+}
+.App table th {
+  background: #DDD;
+  font-weight: normal;
+  text-transform: uppercase;
+}
+.App table td {
+  border-bottom: 1px solid #AAA;
+}
+.App table tr:hover {
+  background: #F3F3F3;
+}
+.App table img {
+  max-width: 70px;
+}
+.App .filters input {
+  display: inline-block;
+}
+.App .filters input[type="text"] {
+  width: calc(30% - 10px);
+  margin: 5px;
+}
+.App .filters input[type="submit"] {
+  width: calc(10% - 12px);
+  margin: 5px;
+}
+.App .filters input:first-child {
+  margin-left: 0;
+}
+.App .filters input:last-child {
+  margin-right: 0;
+}
+
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);
