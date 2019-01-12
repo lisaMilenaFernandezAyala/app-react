@@ -4,23 +4,32 @@ import { API } from "./Common";
 import Cookies from 'universal-cookie';
 
 const cookies = new Cookies();
-let countries;
+let countries, filters = {}, active = cookies.get('country');
 
 class Table extends Component {
   constructor(props) {
     super(props);
 
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleChange = this.handleChange.bind(this);
   }
+
   handleSubmit(event) {
     const nodes = Array.from(event.target.childNodes);
-    let filters =  {name: '', code: '', continent: ''};
+    filters =  {name: '', code: '', continent: ''};
 
-    nodes.map(item => {
+    nodes.forEach(item => {
       if(item.attributes.type.value === 'text' && item.value) filters[item.name] = item.value;
     })
     this.setState(filters);
     event.preventDefault();
+  }
+
+  handleChange(event) {
+    active = event.target.id;
+    cookies.set('country', active, { path: '/' });
+    filters["check"] = !filters["check"];
+    this.setState(filters);
   }
 
   render() {
@@ -28,13 +37,15 @@ class Table extends Component {
       <div>
         <h2>Table</h2>
         <form className="filters" onSubmit={this.handleSubmit}>
-          <input type="text" name="name" placeholder="Name" />
-          <input type="text" name="code" placeholder="Code" />
-          <input type="text" name="continent" placeholder="Continent" />
+          <input type="text" name="name" placeholder="Name" autoComplete="off" />
+          <input type="text" name="code" placeholder="Code" autoComplete="off" />
+          <input type="text" name="continent" placeholder="Continent" autoComplete="off" />
           <input type="submit" value="Submit" />
         </form>
 
         <Fetch url={API.table}
+          method="GET"
+          cacheResponse
           headers={{
             'Authorization': API.authorization,
           }}>
@@ -43,8 +54,8 @@ class Table extends Component {
             return <div>The request did not succeed.</div>;
  
           if (data) {
-            console.log(this.state)
-            if(this.state && (this.state.name.length || this.state.code.length || this.state.continent.length))
+            if(this.state && ((this.state.name && this.state.name.length) ||
+            (this.state.code && this.state.code.length) || (this.state.continent && this.state.continent.length)))
               countries = data.country.filter(country => (
                 (!this.state.name.length || country.name.toLowerCase().indexOf(this.state.name.toLowerCase()) > -1) &&
                 (!this.state.code.length || country.country_code.toLowerCase().indexOf(this.state.code.toLowerCase()) > -1) &&
@@ -63,6 +74,7 @@ class Table extends Component {
                       <th>Name</th>
                       <th>Code</th>
                       <th>Contienent</th>
+                      <th>Active</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -72,6 +84,9 @@ class Table extends Component {
                         <td>{country.name}</td>
                         <td>{country.country_code}</td>
                         <td>{country.continent}</td>
+                        <td>
+                          <input type="checkbox" id={country.country_code} checked={country.country_code===active} onChange={this.handleChange}/>
+                          </td>
                       </tr>
                     ))}
                   </tbody>

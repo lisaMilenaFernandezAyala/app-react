@@ -26,7 +26,7 @@ class Dashboard extends Component {
   };
 
   updateChart = (type, toUpdate) => {
-    value = type || 'Small';
+    value = type || 'Large';
     list = {
       nodes: [
         { id: airportsData.country.name }
@@ -34,7 +34,7 @@ class Dashboard extends Component {
       links: [ ]
     };
     airportsData.airport_list.map(airport => {
-      if(airport.airport_type.indexOf(value) > -1 && airport.iata_code.length){
+      if(airport.airport_type.indexOf(value) > -1 && airport.iata_code.length && JSON.stringify(list.nodes).indexOf(airport.iata_code) === -1){
         list.nodes.push({ id: airport.iata_code });
         list.links.push({ source: airportsData.country.name, target: airport.iata_code });
       }
@@ -52,6 +52,8 @@ class Dashboard extends Component {
         <h2>Dashboard</h2>
 
         <Fetch url={API.dashboard.replace('{country}', cookies.get('country'))}
+          method="GET"
+          cacheResponse
           headers={{
             'Authorization': API.authorization,
           }}>
@@ -60,14 +62,14 @@ class Dashboard extends Component {
             return <div>The request did not succeed.</div>;
  
           if (data && (!this.state || this.state.value)) {
-            if(!this.state || this.state.value != value) {
+            if(!this.state || this.state.value !== value) {
               airportsData = data;
               this.updateChart(value);
             }
             
             return (
               <div>
-                <h3>{data.country.name} ({data.country.country_code}) - {data.country.continent}</h3>
+                <h3>{data.country.name} ({data.country.country_code}) - {data.country.continent} ({list.links.length} airports)</h3>
                 <select onChange={this.handleChange} value={value}>
                   <option key="s" value="Small">Small Airport</option>
                   <option key="m" value="Medium">Medium Airport</option>

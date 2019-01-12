@@ -11,7 +11,7 @@ body, #root {
   height: 40px;
 }
 .App-header {
-  background-color: #282c34;
+  background: #282c34;
   min-height: 50px;
   display: flex;
   align-items: center;
@@ -59,6 +59,15 @@ body, #root {
 .App .content {
   padding: 10px 20px;
 }
+.App .content button, .App .content input[type="submit"] {
+  border: none;
+  background: #282c34;
+  color: #FFF;
+  border-radius: 5px;
+  padding: 8px 10px;
+  cursor: pointer;
+}
+
 
 /*
   Dashboard
@@ -111,6 +120,40 @@ body, #root {
   margin-right: 0;
 }
 
+/*
+  FORM
+*/
+.App .defaults {
+  margin: 5px auto;
+  max-width: 500px;
+}
+.App .defaults > label, .App .defaults input[type="text"], .App .defaults input[type="date"], .App .defaults > div  {
+  font-size: calc(7px + 1vmin);
+  display: inline-block;
+  padding: 10px 5px;
+  margin: 5px 0;
+  border: none;
+}
+.App .defaults > label {
+  width: calc(30% - 10px);
+}
+.App .defaults input:disabled {
+  background: #F3F3F3;
+}
+.App .defaults input[type="text"], .App .defaults input[type="date"], .App .defaults > div {
+  width: calc(70% - 10px);
+}
+.App .defaults input[type="text"], .App .defaults input[type="date"] {
+  box-shadow: inset 0px -1px 0px 0px rgba(0,0,0,0.5);
+}
+.App .defaults > div label {
+  display: inline-block;
+  width: 33%;
+}
+.App .defaults > div label input {
+  margin-left: 0;
+}
+
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);
@@ -119,3 +162,8 @@ body, #root {
     transform: rotate(360deg);
   }
 }
+
+/*
+  Margin
+*/
+.m-t-30 { margin-top: 30px; }
