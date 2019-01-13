@@ -6,7 +6,7 @@ import { Route, NavLink, HashRouter } from "react-router-dom";
 import Dashboard from './Dashboard';
 import Table from './Table';
 import Form from './Form';
-import MapView from './Map';
+import Media from './Media';
 
 class App extends Component {
   render() {
@@ -24,7 +24,7 @@ class App extends Component {
                 <li><NavLink exact to="/">Dashboard</NavLink></li>
                 <li><NavLink exact to="/table">Table</NavLink></li>
                 <li><NavLink exact to="/form">Form</NavLink></li>
-                <li><NavLink exact to="/map">Map</NavLink></li>
+                <li><NavLink exact to="/media">Media</NavLink></li>
               </ul>
             </nav>
 
@@ -32,7 +32,7 @@ class App extends Component {
               <Route exact path="/" component={Dashboard}/>
               <Route exact path="/table" component={Table}/>
               <Route exact path="/form" component={Form}/>
-              <Route exact path="/map" component={MapView}/>
+              <Route exact path="/media" component={Media}/>
             </div>
           </div>
         </HashRouter>

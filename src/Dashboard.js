@@ -1,23 +1,23 @@
 import React, { Component } from "react";
 import { Graph } from 'react-d3-graph';
 import { Fetch } from 'react-request';
-import { API } from "./Common";
+import { API, DEFAULT } from "./Common";
 import Cookies from 'universal-cookie';
+
+const cookies = new Cookies();
 
 let list, value, airportsData;
 const myConfig = {
   nodeHighlightBehavior: true,
   node: {
-      color: '#FF4444',
+      color: '#' + cookies.get('color') || DEFAULT.color,
       size: 150,
-      highlightStrokeColor: '#FF4444'
+      highlightStrokeColor: '#777'
   },
   link: {
-      highlightColor: '#FF7777'
+      highlightColor: '#777'
   }
-};
-
-const cookies = new Cookies();
+}
 
 class Dashboard extends Component {
   handleChange = (event) => {
@@ -26,7 +26,7 @@ class Dashboard extends Component {
   };
 
   updateChart = (type, toUpdate) => {
-    value = type || 'Large';
+    value = type || DEFAULT.chartType;
     list = {
       nodes: [
         { id: airportsData.country.name }
@@ -45,7 +45,7 @@ class Dashboard extends Component {
 
   render() {
     if(!cookies.get('country'))
-      cookies.set('country', 'ES', { path: '/' });
+      cookies.set('country', DEFAULT.country, { path: '/' });
     
     return (
       <div>

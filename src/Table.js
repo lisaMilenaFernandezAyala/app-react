@@ -16,7 +16,7 @@ class Table extends Component {
 
   handleSubmit(event) {
     const nodes = Array.from(event.target.childNodes);
-    filters =  {name: '', code: '', continent: ''};
+    filters = { name: '', code: '', continent: '' };
 
     nodes.forEach(item => {
       if(item.attributes.type.value === 'text' && item.value) filters[item.name] = item.value;

@@ -5,6 +5,7 @@
   "author": "Lisa Milena Fernandez Ayala",
   "dependencies": {
     "d3": "^5.7.0",
+    "google-maps-react": "^2.0.2",
     "react": "^16.7.0",
     "react-d3-graph": "^2.0.0-rc2",
     "react-dom": "^16.7.0",

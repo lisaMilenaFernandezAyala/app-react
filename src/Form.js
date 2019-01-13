@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import Cookies from 'universal-cookie';
+import { DEFAULT } from "./Common";
  
 const cookies = new Cookies();
 
@@ -14,7 +15,7 @@ class Form extends Component {
     Array.from(event.target.childNodes).forEach(item => {
       if(item.attributes.type && item.name) {
         if(item.value)
-          cookies.set(item.name, item.value, { path: '/' });
+          cookies.set(item.name, (item.attributes.type.value === 'color' ? item.value.replace('#', '') : item.value), { path: '/' });
         else
           cookies.remove(item.name);
       } else if(item.tagName.toLowerCase() === 'div')
@@ -28,8 +29,9 @@ class Form extends Component {
   }
 
   render() {
-    console.log(cookies)
     let values = cookies.getAll();
+    values.color = (!values.color ? DEFAULT.color : '#' + values.color);
+
     return (
       <div>
         <h2>Form</h2>
@@ -56,6 +58,9 @@ class Form extends Component {
             <label><input type="radio" name="gender" value="female" defaultChecked={values.gender==="female"} /> Female</label>
             <label><input type="radio" name="gender" value="other" defaultChecked={values.gender==="other"} /> Other</label>
           </div>
+
+          <label>Chart color:</label>
+          <input type="color" name="color" defaultValue={values.color} />
 
           <label>Country:</label>
           <input type="text" name="country" value={values.country} disabled />

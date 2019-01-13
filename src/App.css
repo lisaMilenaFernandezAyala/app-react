@@ -67,7 +67,15 @@ body, #root {
   padding: 8px 10px;
   cursor: pointer;
 }
-
+.App input[type="text"], .App input[type="date"], .App select {
+  border: none;
+  background: transparent;
+  box-shadow: inset 0px -1px 0px 0px rgba(0,0,0,0.4);
+  padding: 10px 5px;
+}
+.App form > * {
+  display: inline-block;
+}
 
 /*
   Dashboard
@@ -102,15 +110,12 @@ body, #root {
 .App table img {
   max-width: 70px;
 }
-.App .filters input {
-  display: inline-block;
-}
 .App .filters input[type="text"] {
-  width: calc(30% - 10px);
+  width: calc(30% - 20px);
   margin: 5px;
 }
 .App .filters input[type="submit"] {
-  width: calc(10% - 12px);
+  width: calc(10% - 10px);
   margin: 5px;
 }
 .App .filters input:first-child {
@@ -127,10 +132,9 @@ body, #root {
   margin: 5px auto;
   max-width: 500px;
 }
-.App .defaults > label, .App .defaults input[type="text"], .App .defaults input[type="date"], .App .defaults > div  {
+.App .defaults > label, .App .defaults input[type="text"], .App .defaults input[type="date"], .App .defaults input[type="color"],
+.App .defaults > div  {
   font-size: calc(7px + 1vmin);
-  display: inline-block;
-  padding: 10px 5px;
   margin: 5px 0;
   border: none;
 }
@@ -143,17 +147,33 @@ body, #root {
 .App .defaults input[type="text"], .App .defaults input[type="date"], .App .defaults > div {
   width: calc(70% - 10px);
 }
-.App .defaults input[type="text"], .App .defaults input[type="date"] {
-  box-shadow: inset 0px -1px 0px 0px rgba(0,0,0,0.5);
+.App .defaults input[type="color"] {
+  width: calc(40% - 10px);
+  margin-right: 30%;
+  background: transparent;
+  box-shadow: inset 0px 0px 0px 1px rgba(0,0,0,0.4);
 }
 .App .defaults > div label {
-  display: inline-block;
   width: 33%;
 }
 .App .defaults > div label input {
   margin-left: 0;
 }
 
+/*
+  Media
+*/
+.App .media p {
+  font-size: calc(7px + 1vmin);
+  margin: .5em 20px;
+}
+.App .media h3 {
+  margin-top: 2em;
+}
+.App .media .map {
+  position: relative !important;
+  min-height: 350px;
+}
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);
@@ -167,3 +187,4 @@ body, #root {
   Margin
 */
 .m-t-30 { margin-top: 30px; }
+.m-r-20 { margin-right: 20px; }
