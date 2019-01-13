@@ -1,14 +1,18 @@
 # app-react
 app-react
 
-##Pages
+## Pages
 ### Dashboard
+Airports by default country chart, filtered by airport type.
 
 ### Table
+Country table with filters (country name, country code, contienen). Here could be select the default country.
 
 ### Form
+Form with user information and default app configuration.
 
 ### Media
+With the IATA code from an airport, display the airport location in a map, and videos of it location.
 
 ## Available Scripts
 

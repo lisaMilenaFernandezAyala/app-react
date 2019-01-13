@@ -163,17 +163,53 @@ body, #root {
 /*
   Media
 */
-.App .media p {
-  font-size: calc(7px + 1vmin);
-  margin: .5em 20px;
-}
 .App .media h3 {
   margin-top: 2em;
+}
+.App .media h3 ~ p {
+  margin: .5em 20px;
+}
+.App .media p {
+  font-size: calc(7px + 1vmin);
 }
 .App .media .map {
   position: relative !important;
   min-height: 350px;
 }
+.App .media ul {
+  min-width: 350px;
+  width: 40%;
+  padding-left: 0;
+  float: left;
+  margin-top: 0;
+  max-height: calc(100vh - 100px);
+  overflow-y: scroll;
+}
+.App .media li {
+  list-style: none;
+}
+.App .media a {
+  text-decoration: none;
+  color: #282c34;
+  font-weight: bold;
+}
+.App .media li h4 {
+  margin-bottom: 5px;
+}
+.App .media li p {
+  margin: 5px 0;
+  padding: 0 10px 0 0;
+  max-height: calc(30px + 1vmin);
+  overflow: hidden;
+}
+.App .media iframe {
+  float: left;
+  width: 60%;
+  max-width: calc(100% - 350px);
+  margin-block-start: 1.33em;
+  min-height: 350px;
+}
+
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);

@@ -2,6 +2,13 @@ import React, { Component } from "react";
 import { Fetch } from 'react-request';
 import { API } from "./Common";
 import {Map, InfoWindow, Marker, GoogleApiWrapper} from 'google-maps-react';
+
+const style = {
+  width: '80%',
+  maxWidth: '500px',
+  height: '350px',
+  margin: '5px auto'
+};
  
 export class Media extends Component {
   constructor(props) {
@@ -33,11 +40,13 @@ export class Media extends Component {
     return (
       <div className="media">
         <h2>Media</h2>
+
         <form onSubmit={this.handleSubmit}>
           <label className="m-r-20">IATA Code:</label>
           <input className="m-r-20" type="text" name="code" placeholder="Code" autoComplete="off" />
           <input type="submit" value="Submit" />
         </form>
+        
         { this.state && this.state.iata ? (
         <Fetch url={API.media.replace('{iata}', this.state.iata)}
           method="GET"
@@ -54,12 +63,6 @@ export class Media extends Component {
               center = {
                 lat: airport.latitude,
                 lng: airport.longitude
-              },
-              style = {
-                width: '80%',
-                maxWidth: '500px',
-                height: '350px',
-                margin: '5px auto'
               };
 
               return (
@@ -85,7 +88,33 @@ export class Media extends Component {
                       </InfoWindow>
                     </Map>
 
-                  <h3>Country videos</h3>
+                  <h3>Region videos</h3>
+                  {<Fetch url={API.youtube.replace('{query}', airport.Region.name.replace(/\s/g, "+"))}
+                    method="GET"
+                    cacheResponse>
+                    {({ failed, data }) => {
+                      if (failed)
+                        return <div>The request did not succeed.</div>;
+            
+                      if (data) {
+                        return (<ul>{
+                          data.items.map((item, key) => (
+                            <li key={key} id={item.id.videoId}>
+                              <h4 onClick={() => this.setState({ iata: this.state.iata, video: item.id.videoId })}>
+                                {item.snippet.title}
+                              </h4>
+                              <p>{item.snippet.description}</p>
+                              <p>{item.snippet.publishedAt}</p>
+                            </li>
+                          ))
+                        }</ul>);
+                      }
+                    }}
+                  </Fetch>}
+
+                  {this.state.video ? <iframe frameBorder="0" scrolling="no" type="text/html" 
+                  src={`https://www.youtube.com/embed/${this.state.video}?start=0`}></iframe>
+                  : <p>Select a video</p>}
                 </div>
               );
             }
@@ -93,8 +122,7 @@ export class Media extends Component {
             return <div>Loading data...</div>;
           }}
           </Fetch>
-        ) : <p>Fill IATA code</p>}
-        
+        ) : <p>Fill IATA code *</p>}
       </div>
     );
   }
