@@ -56,7 +56,7 @@ export class Media extends Component {
           }}>
           {({ failed, data }) => {
             if (failed)
-              return <div>The request did not succeed.</div>;
+              return <div className="error">The request did not succeed.</div>;
    
             if (data) {
               const airport = data.airport_list[0],
@@ -114,7 +114,7 @@ export class Media extends Component {
 
                   {this.state.video ? <iframe frameBorder="0" scrolling="no" type="text/html" 
                   src={`https://www.youtube.com/embed/${this.state.video}?start=0`}></iframe>
-                  : <p>Select a video</p>}
+                  : <p className="message">Select a video</p>}
                 </div>
               );
             }

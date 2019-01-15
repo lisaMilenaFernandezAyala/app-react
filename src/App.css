@@ -76,12 +76,30 @@ body, #root {
 .App form > * {
   display: inline-block;
 }
+.App .error {
+  background: rgba(250, 20, 20, 0.1);
+  padding: 15px 10px;
+  border-radius: 5px;
+  margin: 15px auto;
+  text-align: center;
+  color: #282c34;
+  width: 90%;
+}
+.App .message {
+  padding: 10px;
+  background: rgba(0,0,0,0.2);
+}
 
 /*
   Dashboard
 */
 .App .content svg {
-  max-width: 100%;
+  width: 90% !important;
+  height: calc(100vh - 100px) !important;
+  background: #F7F8FD;
+  margin: 15px auto;
+  display: block;
+  border-radius: 5px;
 }
 
 /*
@@ -112,14 +130,13 @@ body, #root {
 }
 .App .filters input[type="text"] {
   width: calc(30% - 20px);
-  margin: 5px;
+  margin: 5px 10px 5px 0;
+  min-width: 100px;
 }
 .App .filters input[type="submit"] {
   width: calc(10% - 10px);
-  margin: 5px;
-}
-.App .filters input:first-child {
-  margin-left: 0;
+  margin: 5px 0;
+  min-width: 65px;
 }
 .App .filters input:last-child {
   margin-right: 0;
@@ -155,9 +172,11 @@ body, #root {
 }
 .App .defaults > div label {
   width: 33%;
+  display: inline-block;
 }
 .App .defaults > div label input {
   margin-left: 0;
+  margin-right: 2px;
 }
 
 /*
@@ -176,11 +195,13 @@ body, #root {
   position: relative !important;
   min-height: 350px;
 }
+.App .media ul, .App .media iframe, .App .media .message {
+    float: left;
+}
 .App .media ul {
-  min-width: 350px;
+  min-width: 300px;
   width: 40%;
   padding-left: 0;
-  float: left;
   margin-top: 0;
   max-height: calc(100vh - 100px);
   overflow-y: scroll;
@@ -195,6 +216,8 @@ body, #root {
 }
 .App .media li h4 {
   margin-bottom: 5px;
+  text-decoration: underline;
+  cursor: pointer;
 }
 .App .media li p {
   margin: 5px 0;
@@ -203,7 +226,6 @@ body, #root {
   overflow: hidden;
 }
 .App .media iframe {
-  float: left;
   width: 60%;
   max-width: calc(100% - 350px);
   margin-block-start: 1.33em;
@@ -224,3 +246,40 @@ body, #root {
 */
 .m-t-30 { margin-top: 30px; }
 .m-r-20 { margin-right: 20px; }
+
+/*
+  Scrollbar
+*/
+::-webkit-scrollbar {
+  width: 4px;
+  height: 4px;
+}
+::-webkit-scrollbar-button {
+  width: 0px;
+  height: 0px;
+}
+::-webkit-scrollbar-thumb {
+  background: #d1d1d1;
+  border: 0px none #ffffff;
+  border-radius: 50px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #ffffff;
+}
+::-webkit-scrollbar-thumb:active {
+  background: #000000;
+}
+::-webkit-scrollbar-track {
+  background: #666666;
+  border: 0px none #ffffff;
+  border-radius: 50px;
+}
+::-webkit-scrollbar-track:hover {
+  background: #666666;
+}
+::-webkit-scrollbar-track:active {
+  background: #333333;
+}
+::-webkit-scrollbar-corner {
+  background: transparent;
+}

@@ -51,7 +51,7 @@ class Table extends Component {
           }}>
         {({ failed, data }) => {
           if (failed)
-            return <div>The request did not succeed.</div>;
+            return <div className="error">The request did not succeed.</div>;
  
           if (data) {
             if(this.state && ((this.state.name && this.state.name.length) ||

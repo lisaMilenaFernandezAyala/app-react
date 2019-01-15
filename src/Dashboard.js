@@ -10,7 +10,7 @@ let list, value, airportsData;
 const myConfig = {
   nodeHighlightBehavior: true,
   node: {
-      color: '#' + cookies.get('color') || DEFAULT.color,
+      color: DEFAULT.color,
       size: 150,
       highlightStrokeColor: '#777'
   },
@@ -28,10 +28,14 @@ class Dashboard extends Component {
   updateChart = (type, toUpdate) => {
     value = type || DEFAULT.chartType;
     list = {
-      nodes: [
-        { id: airportsData.country.name }
-      ],
-      links: [ ]
+      nodes: [{
+        id: airportsData.country.name,
+        color: DEFAULT.color,
+        size: 200,
+        symbolType: 'diamond'
+      }],
+      links: [ ],
+      focusedNodeId: airportsData.country.name
     };
     airportsData.airport_list.map(airport => {
       if(airport.airport_type.indexOf(value) > -1 && airport.iata_code.length && JSON.stringify(list.nodes).indexOf(airport.iata_code) === -1){
@@ -42,11 +46,17 @@ class Dashboard extends Component {
     
     if(toUpdate) setTimeout(() => this.setState({ value: type }));
   };
+  
+  onMouseOverNode = (node) => {
+    window.alert(`Mouse over node ${JSON.stringify(node)}`);
+  };
 
   render() {
     if(!cookies.get('country'))
       cookies.set('country', DEFAULT.country, { path: '/' });
-    
+    if(cookies.get('color'))
+      myConfig.node.color = '#' + cookies.get('color');
+
     return (
       <div>
         <h2>Dashboard</h2>
@@ -59,7 +69,7 @@ class Dashboard extends Component {
           }}>
         {({ failed, data }) => { 
           if (failed)
-            return <div>The request did not succeed.</div>;
+            return <div className="error">The request did not succeed.</div>;
  
           if (data && (!this.state || this.state.value)) {
             if(!this.state || this.state.value !== value) {
@@ -81,7 +91,8 @@ class Dashboard extends Component {
                 <Graph
                   id={value}
                   data={list}
-                  config={myConfig}/>
+                  config={myConfig}
+                  onClickNode={this.onClickNode} />
               </div>
             );
           }
